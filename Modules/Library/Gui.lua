@@ -12,7 +12,7 @@ local ConfigItems = {}
 
 local GuiName = "HydrogenGui"
 local FolderName = "Soul A Hydrogen Hub"
-local IconsUrl = "https://raw.githubusercontent.com/dawid-scripts/Fluent/master/src/Icons.lua"
+local IconsUrl = "https://raw.githubusercontent.com/ui-l/SoulAHydrogen/refs/heads/main/Modules/Util/icons.lua"
 
 local function GuiParent()
 	if RunService:IsStudio() then
