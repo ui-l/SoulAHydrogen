@@ -40,9 +40,7 @@ pcall(function()
 	end
 end)
 
--- Icons come from the Fluent icon set (lucide-*).
--- Only the icons used by the library are embedded; any other name is
--- resolved from the full Fluent Icons.lua on demand.
+
 local IconSet = {
 	["lucide-x"] = "rbxassetid://10747384394",
 	["lucide-x-circle"] = "rbxassetid://10747383819",
@@ -140,14 +138,6 @@ end
 
 Custom:EnabledAFK()
 
--- Credits are supplied in CreateWindow({Credits = {...}}) or Window:SetCredits({...}).
--- Each entry: {Name = "Your name", Role = "Main Developer", AssetId = 123456789}.
--- Image / Icon can also be a complete rbxassetid:// URL; UserId is an optional avatar fallback.
--- Icons can be given as a Fluent icon name, e.g. "home" or "lucide-home".
--- Social accounts are supplied in CreateWindow({Socials = {...}}) or Window:SetSocials({...}).
--- Each entry: {Name = "TikTok", Value = "@name or link", Icon = 123456789}.
--- Every social row gets its own Copy button that copies Value to the clipboard.
--- Notifications accept Icon (or positional [4]) and Type = "Info" / "Success" / "Warning" / "Error".
 local function AssetImage(Value, Fallback)
 	if type(Value) == "number" then
 		return "rbxassetid://" .. tostring(Value)
@@ -164,7 +154,6 @@ local function AssetImage(Value, Fallback)
 	return Fallback or ""
 end
 
--- Copies text to the clipboard using whatever the executor provides.
 local function CopyText(Text)
 	Text = tostring(Text or "")
 	local copier = (type(setclipboard) == "function" and setclipboard)
@@ -178,8 +167,6 @@ local function CopyText(Text)
 	return false
 end
 
--- Credits shown when CreateWindow is called without Credits.
--- Put your user ID (the number in roblox.com/users/<ID>/profile) to show your avatar.
 local DefaultCredits = {
 	{
 		Name = "Normal Guy",
@@ -215,7 +202,6 @@ local function OpenClose()
 		ZIndexBehavior = Enum.ZIndexBehavior.Sibling,
 	}, GuiParent())
 
-	-- Perfect circle: square size + full corner radius + cropped image
 	local Close_ImageButton = Custom:Create("ImageButton", {
 		Name = "ToggleButton",
 		BackgroundColor3 = Custom.Surface,
