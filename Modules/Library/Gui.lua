@@ -45,20 +45,20 @@ pcall(function()
 end)
 
 local IconSet = {
-	["lucide-x"] = "rbxassetid://10747384394",
-	["lucide-x-circle"] = "rbxassetid://10747383819",
-	["lucide-minus"] = "rbxassetid://10734896206",
-	["lucide-search"] = "rbxassetid://10734943674",
-	["lucide-chevron-down"] = "rbxassetid://10709790948",
-	["lucide-check"] = "rbxassetid://10709790644",
-	["lucide-check-circle"] = "rbxassetid://10709790387",
-	["lucide-info"] = "rbxassetid://10723415903",
-	["lucide-alert-triangle"] = "rbxassetid://10709753149",
-	["lucide-users"] = "rbxassetid://10747373426",
-	["lucide-folder"] = "rbxassetid://10723387563",
-	["lucide-mouse-pointer-click"] = "rbxassetid://10734898355",
-	["lucide-home"] = "rbxassetid://10723407389",
-	["lucide-settings"] = "rbxassetid://10734950309",
+	["x-hydrogen"] = "rbxassetid://10747384394",
+	["x-circle-hydrogen"] = "rbxassetid://10747383819",
+	["minus-hydrogen"] = "rbxassetid://10734896206",
+	["search-hydrogen"] = "rbxassetid://10734943674",
+	["chevron-down-hydrogen"] = "rbxassetid://10709790948",
+	["check-hydrogen"] = "rbxassetid://10709790644",
+	["check-circle-hydrogen"] = "rbxassetid://10709790387",
+	["info-hydrogen"] = "rbxassetid://10723415903",
+	["alert-triangle-hydrogen"] = "rbxassetid://10709753149",
+	["users-hydrogen"] = "rbxassetid://10747373426",
+	["folder-hydrogen"] = "rbxassetid://10723387563",
+	["mouse-pointer-click-hydrogen"] = "rbxassetid://10734898355",
+	["home-hydrogen"] = "rbxassetid://10723407389",
+	["settings-hydrogen"] = "rbxassetid://10734950309",
 }
 
 local FullIcons = nil
