@@ -2,7 +2,7 @@ return (function(...)
   if not game and (game.GetService and game:GetService("RunService")) or game.ClassName ~= "DataModel" or (typeof and typeof(game.Players) ~= "Instance") or not ((getmetatable and (setmetatable and (type and (pcall and (rawget and rawset)))))) then
     repeat
       task.wait()
-      warn("stop skidding - Ru-3")
+      warn("Soul A Hydrogen - Don't Use Hooks")
     until false
   end
   local library, tweenHelper, context = {}, {}, {}
