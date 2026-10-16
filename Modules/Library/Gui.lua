@@ -45,24 +45,34 @@ pcall(function()
 end)
 
 local IconSet = {
-    ["settings-hydrogen"]       = "rbxassetid://10734950309",
-    ["users-hydrogen"]          = "rbxassetid://10747373426",
-    ["info-hydrogen"]           = "rbxassetid://10723415903",
-    ["home-hydrogen"]           = "rbxassetid://10723407389",
-    ["settings-hydrogen"]       = "rbxassetid://10734950309",
-    ["user-hydrogen"]           = "rbxassetid://10747373176",
-    ["visual-hydrogen"]         = "rbxassetid://10723346959",
-    ["cart-hydrogen"]           = "rbxassetid://10734952479",
-    ["map-hydrogen"]            = "rbxassetid://10734886202",
-    ["bio-hydrogen"]            = "rbxassetid://10723406795",
-    ["craft-hydrogen"]          = "rbxassetid://10723405360",
-    ["swords-hydrogen"]         = "rbxassetid://10734975692",
-    ["raid-hydrogen"]           = "rbxassetid://10734962068",
-    ["rabbit-hydrogen"]         = "rbxassetid://10734934585",
-    ["ship-hydrogen"]           = "rbxassetid://10734941354",
-    ["cat-hydrogen"]            = "rbxassetid://10723396107",
-    ["misc-hydrogen"]           = "rbxassetid://10723424838",
-    ["cherry-hydrogen"]         = "rbxassetid://10709790875",
+	["x-hydrogen"]                   = "rbxassetid://10747384394",
+	["x-circle-hydrogen"]            = "rbxassetid://10747383819",
+	["minus-hydrogen"]               = "rbxassetid://10734896206",
+	["search-hydrogen"]              = "rbxassetid://10734943674",
+	["chevron-down-hydrogen"]        = "rbxassetid://10709790948",
+	["check-hydrogen"]               = "rbxassetid://10709790644",
+	["check-circle-hydrogen"]        = "rbxassetid://10709790387",
+	["alert-triangle-hydrogen"]      = "rbxassetid://10709753149",
+	["folder-hydrogen"]              = "rbxassetid://10723387563",
+	["mouse-pointer-click-hydrogen"] = "rbxassetid://10734898355",
+	["info-hydrogen"]                = "rbxassetid://10723415903",
+	["users-hydrogen"]               = "rbxassetid://10747373426",
+
+	["settings-hydrogen"]            = "rbxassetid://10734950309",
+	["home-hydrogen"]                = "rbxassetid://10723407389",
+	["user-hydrogen"]                = "rbxassetid://10747373176",
+	["visual-hydrogen"]              = "rbxassetid://10723346959",
+	["cart-hydrogen"]                = "rbxassetid://10734952479",
+	["map-hydrogen"]                 = "rbxassetid://10734886202",
+	["bio-hydrogen"]                 = "rbxassetid://10723406795",
+	["craft-hydrogen"]               = "rbxassetid://10723405360",
+	["swords-hydrogen"]              = "rbxassetid://10734975692",
+	["raid-hydrogen"]                = "rbxassetid://10734962068",
+	["rabbit-hydrogen"]              = "rbxassetid://10734934585",
+	["ship-hydrogen"]                = "rbxassetid://10734941354",
+	["cat-hydrogen"]                 = "rbxassetid://10723396107",
+	["misc-hydrogen"]                = "rbxassetid://10723424838",
+	["cherry-hydrogen"]              = "rbxassetid://10709790875",
 }
 
 local FullIcons = nil
@@ -74,8 +84,14 @@ local function LoadFullIcons()
 	local ok, data = pcall(function()
 		return loadstring(game:HttpGet(IconsUrl))()
 	end)
-	if ok and type(data) == "table" and type(data.assets) == "table" then
-		FullIcons = data.assets
+	if ok and type(data) == "table" then
+		if type(data.assets) == "table" then
+			FullIcons = data.assets
+		elseif type(data.Assets) == "table" then
+			FullIcons = data.Assets
+		else
+			FullIcons = data
+		end
 	end
 	return FullIcons
 end
@@ -85,16 +101,21 @@ local function GetIcon(Name)
 		return nil
 	end
 	local key = string.lower(Name)
-	if not string.find(key, "^lucide%-") then
-		key = "lucide-" .. key
+	key = string.gsub(key, "^lucide%-", "")
+	local base = string.gsub(key, "%-hydrogen$", "")
+
+	local found = IconSet[base .. "-hydrogen"] or IconSet[key]
+	if found then
+		return found
 	end
-	if IconSet[key] then
-		return IconSet[key]
-	end
+
 	local full = LoadFullIcons()
-	if full and full[key] then
-		IconSet[key] = full[key]
-		return full[key]
+	if full then
+		local value = full[base .. "-hydrogen"] or full[key] or full["lucide-" .. base] or full[base]
+		if type(value) == "string" then
+			IconSet[base .. "-hydrogen"] = value
+			return value
+		end
 	end
 	return nil
 end
@@ -106,18 +127,18 @@ do
 	Custom.Surface = Color3.fromRGB(20, 20, 20)
 	Custom.White = Color3.fromRGB(255, 255, 255)
 	Custom.Icons = {
-    Close   = IconSet["x-hydrogen"],
-    Hide    = IconSet["minus-hydrogen"],
-    Search  = IconSet["search-hydrogen"],
-    Chevron = IconSet["chevron-down-hydrogen"],
-    Check   = IconSet["check-hydrogen"],
-    Info    = IconSet["info-hydrogen"],
-    Success = IconSet["check-circle-hydrogen"],
-    Warning = IconSet["alert-triangle-hydrogen"],
-    Error   = IconSet["x-circle-hydrogen"],
-    Credits = IconSet["users-hydrogen"],
-    Folder  = IconSet["folder-hydrogen"],
-    Click   = IconSet["mouse-pointer-click-hydrogen"],
+		Close   = IconSet["x-hydrogen"],
+		Hide    = IconSet["minus-hydrogen"],
+		Search  = IconSet["search-hydrogen"],
+		Chevron = IconSet["chevron-down-hydrogen"],
+		Check   = IconSet["check-hydrogen"],
+		Info    = IconSet["info-hydrogen"],
+		Success = IconSet["check-circle-hydrogen"],
+		Warning = IconSet["alert-triangle-hydrogen"],
+		Error   = IconSet["x-circle-hydrogen"],
+		Credits = IconSet["users-hydrogen"],
+		Folder  = IconSet["folder-hydrogen"],
+		Click   = IconSet["mouse-pointer-click-hydrogen"],
 	}
 
 	function Custom:Create(Name, Properties, Parent)
@@ -2635,7 +2656,7 @@ function Hydrogen_Library:CreateWindow(Config)
 					BorderColor3 = Color3.fromRGB(0, 0, 0),
 					BorderSizePixel = 0,
 					Position = UDim2.new(0, 10, 0, 10),
-					Size = UDim2.new(1, -180, 0, 13),
+					Size = UDim2.new(1, -190, 0, 13),
 					Name = "SliderTitle",
 				}, Slider)
 
@@ -2652,7 +2673,7 @@ function Hydrogen_Library:CreateWindow(Config)
 					BorderColor3 = Color3.fromRGB(0, 0, 0),
 					BorderSizePixel = 0,
 					Position = UDim2.new(0, 10, 0, 23),
-					Size = UDim2.new(1, -180, 0, 12),
+					Size = UDim2.new(1, -190, 0, 12),
 					Name = "SliderContent",
 				}, Slider)
 
@@ -2660,7 +2681,7 @@ function Hydrogen_Library:CreateWindow(Config)
 					SliderContent.TextWrapped = false
 					SliderContent.Size = UDim2.new(
 						1,
-						-180,
+						-190,
 						0,
 						12 + (12 * math.floor(SliderContent.TextBounds.X / math.max(1, SliderContent.AbsoluteSize.X)))
 					)
@@ -2676,31 +2697,43 @@ function Hydrogen_Library:CreateWindow(Config)
 
 				local SliderInput = Custom:Create("Frame", {
 					AnchorPoint = Vector2.new(0, 0.5),
-					BackgroundColor3 = Custom.ColorRGB,
-					BorderColor3 = Color3.fromRGB(0, 0, 0),
+					BackgroundColor3 = Custom.Background,
+					BackgroundTransparency = 0,
 					BorderSizePixel = 0,
-					Position = UDim2.new(1, -155, 0.5, 0),
-					Size = UDim2.new(0, 28, 0, 20),
+					Position = UDim2.new(1, -172, 0.5, 0),
+					Size = UDim2.fromOffset(46, 22),
 					Name = "SliderInput",
 				}, Slider)
 
 				Custom:Create("UICorner", {
-					CornerRadius = UDim.new(0, 2),
+					CornerRadius = UDim.new(0, 6),
+				}, SliderInput)
+
+				local SliderInputStroke = Custom:Create("UIStroke", {
+					Color = Color3.fromRGB(50, 50, 50),
+					Thickness = 1.2,
+					ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
 				}, SliderInput)
 
 				local TextBox = Custom:Create("TextBox", {
 					Font = Enum.Font.GothamBold,
 					Text = "90",
-					TextColor3 = Color3.fromRGB(255, 255, 255),
-					TextSize = 13,
-					TextWrapped = true,
-					BackgroundColor3 = Color3.fromRGB(0, 0, 0),
+					TextColor3 = Custom.ColorRGB,
+					TextSize = 12,
+					TextWrapped = false,
+					TextXAlignment = Enum.TextXAlignment.Center,
+					TextYAlignment = Enum.TextYAlignment.Center,
+					ClearTextOnFocus = false,
 					BackgroundTransparency = 1,
-					BorderColor3 = Color3.fromRGB(0, 0, 0),
 					BorderSizePixel = 0,
-					Position = UDim2.new(0, -1, 0, 0),
-					Size = UDim2.new(1, 0, 1, 0),
+					Position = UDim2.fromOffset(0, 0),
+					Size = UDim2.fromScale(1, 1),
+					Name = "SliderValue",
 				}, SliderInput)
+
+				TextBox.Focused:Connect(function()
+					TweenService:Create(SliderInputStroke, TweenInfo.new(0.15), { Color = Custom.ColorRGB }):Play()
+				end)
 
 				local SliderFrame = Custom:Create("Frame", {
 					AnchorPoint = Vector2.new(1, 0.5),
@@ -2813,6 +2846,11 @@ function Hydrogen_Library:CreateWindow(Config)
 				end)
 
 				TextBox.FocusLost:Connect(function()
+					TweenService:Create(
+						SliderInputStroke,
+						TweenInfo.new(0.15),
+						{ Color = Color3.fromRGB(50, 50, 50) }
+					):Play()
 					if TextBox.Text ~= "" then
 						Funcs_Slider:Set(tonumber(TextBox.Text))
 						Callback(Funcs_Slider.Value)
