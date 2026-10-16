@@ -382,6 +382,16 @@ local function CircleClick(Button, X, Y)
 	end)
 end
 
+local function AnimateLine(Gradient)
+	Gradient.Offset = Vector2.new(-1, 0)
+	TweenService:Create(
+		Gradient,
+		TweenInfo.new(1.8, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1),
+		{ Offset = Vector2.new(1, 0) }
+	):Play()
+	return Gradient
+end
+
 local Hydrogen_Library = { Unloaded = false, NotificationsVisible = true, FolderName = FolderName, GuiName = GuiName }
 local NotificationGui, NotificationLayout
 local NotificationCount = 0
@@ -981,13 +991,13 @@ function Hydrogen_Library:CreateWindow(Config)
 		ZIndex = 103,
 	}, ClosePanel)
 	Custom:Create("UICorner", {}, CloseAccent)
-	Custom:Create("UIGradient", {
+	AnimateLine(Custom:Create("UIGradient", {
 		Color = ColorSequence.new({
 			ColorSequenceKeypoint.new(0, Color3.fromRGB(20, 20, 20)),
 			ColorSequenceKeypoint.new(0.5, Custom.ColorRGB),
 			ColorSequenceKeypoint.new(1, Color3.fromRGB(20, 20, 20)),
 		}),
-	}, CloseAccent)
+	}, CloseAccent))
 
 	Custom:Create("TextLabel", {
 		Name = "CloseConfirmationMessage",
@@ -1303,13 +1313,13 @@ function Hydrogen_Library:CreateWindow(Config)
 		ZIndex = 53,
 	}, CreditsPanel)
 	Custom:Create("UICorner", {}, CreditsAccent)
-	Custom:Create("UIGradient", {
+	AnimateLine(Custom:Create("UIGradient", {
 		Color = ColorSequence.new({
 			ColorSequenceKeypoint.new(0, Color3.fromRGB(20, 20, 20)),
 			ColorSequenceKeypoint.new(0.5, Custom.ColorRGB),
 			ColorSequenceKeypoint.new(1, Color3.fromRGB(20, 20, 20)),
 		}),
-	}, CreditsAccent)
+	}, CreditsAccent))
 	local CreditsList = Custom:Create("ScrollingFrame", {
 		Name = "CreditsList",
 		BackgroundTransparency = 1,
@@ -1506,13 +1516,13 @@ function Hydrogen_Library:CreateWindow(Config)
 			ZIndex = 54,
 		}, Divider)
 		Custom:Create("UICorner", {}, DividerAccent)
-		Custom:Create("UIGradient", {
+		AnimateLine(Custom:Create("UIGradient", {
 			Color = ColorSequence.new({
 				ColorSequenceKeypoint.new(0, Color3.fromRGB(20, 20, 20)),
 				ColorSequenceKeypoint.new(0.5, Custom.ColorRGB),
 				ColorSequenceKeypoint.new(1, Color3.fromRGB(20, 20, 20)),
 			}),
-		}, DividerAccent)
+		}, DividerAccent))
 		Custom:Create("TextLabel", {
 			Name = "SocialTitle",
 			Text = "Social Accounts",
@@ -2054,13 +2064,13 @@ function Hydrogen_Library:CreateWindow(Config)
 				Name = "SectionDecideFrame",
 			}, Section)
 			Custom:Create("UICorner", {}, SectionDecideFrame)
-			Custom:Create("UIGradient", {
+			AnimateLine(Custom:Create("UIGradient", {
 				Color = ColorSequence.new({
 					ColorSequenceKeypoint.new(0, Color3.fromRGB(20, 20, 20)),
 					ColorSequenceKeypoint.new(0.5, Custom.ColorRGB),
 					ColorSequenceKeypoint.new(1, Color3.fromRGB(20, 20, 20)),
 				}),
-			}, SectionDecideFrame)
+			}, SectionDecideFrame))
 
 			local SectionAdd = Custom:Create("Frame", {
 				AnchorPoint = Vector2.new(0.5, 0),
