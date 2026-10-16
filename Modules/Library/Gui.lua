@@ -106,18 +106,18 @@ do
 	Custom.Surface = Color3.fromRGB(20, 20, 20)
 	Custom.White = Color3.fromRGB(255, 255, 255)
 	Custom.Icons = {
-		Close = IconSet["lucide-x"],
-		Hide = IconSet["lucide-minus"],
-		Search = IconSet["lucide-search"],
-		Chevron = IconSet["lucide-chevron-down"],
-		Check = IconSet["lucide-check"],
-		Info = IconSet["lucide-info"],
-		Success = IconSet["lucide-check-circle"],
-		Warning = IconSet["lucide-alert-triangle"],
-		Error = IconSet["lucide-x-circle"],
-		Credits = IconSet["lucide-users"],
-		Folder = IconSet["lucide-folder"],
-		Click = IconSet["lucide-mouse-pointer-click"],
+    Close   = IconSet["x-hydrogen"],
+    Hide    = IconSet["minus-hydrogen"],
+    Search  = IconSet["search-hydrogen"],
+    Chevron = IconSet["chevron-down-hydrogen"],
+    Check   = IconSet["check-hydrogen"],
+    Info    = IconSet["info-hydrogen"],
+    Success = IconSet["check-circle-hydrogen"],
+    Warning = IconSet["alert-triangle-hydrogen"],
+    Error   = IconSet["x-circle-hydrogen"],
+    Credits = IconSet["users-hydrogen"],
+    Folder  = IconSet["folder-hydrogen"],
+    Click   = IconSet["mouse-pointer-click-hydrogen"],
 	}
 
 	function Custom:Create(Name, Properties, Parent)
