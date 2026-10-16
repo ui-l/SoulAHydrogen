@@ -2776,82 +2776,88 @@ function Hydrogen_Library:CreateWindow(Config)
 				local FeatureFrame2 = Custom:Create("Frame", {
 					Name = "FeatureFrame2",
 					AnchorPoint = Vector2.new(1, 0.5),
-					BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-					BackgroundTransparency = 0.92,
+					BackgroundColor3 = Color3.fromRGB(38, 38, 38),
+					BackgroundTransparency = 0,
 					BorderSizePixel = 0,
 					Position = UDim2.new(1, -15, 0.5, 0),
-					Size = UDim2.fromOffset(32, 17),
+					Size = UDim2.fromOffset(36, 18),
 				}, Toggle)
 
 				Custom:Create("UICorner", {
-					CornerRadius = UDim.new(0, 4),
+					CornerRadius = UDim.new(1, 0),
 				}, FeatureFrame2)
 
 				local UIStroke8 = Custom:Create("UIStroke", {
 					Color = Color3.fromRGB(255, 255, 255),
-					Thickness = 2,
+					Thickness = 1.2,
 					Transparency = 0.9,
 				}, FeatureFrame2)
+
+				local GlowLayers = {}
+				for index, grow in ipairs({ 4, 8, 12 }) do
+					local Layer = Custom:Create("Frame", {
+						Name = "ToggleGlow",
+						AnchorPoint = Vector2.new(0.5, 0.5),
+						BackgroundColor3 = Custom.ColorRGB,
+						BackgroundTransparency = 1,
+						BorderSizePixel = 0,
+						Position = UDim2.fromScale(0.5, 0.5),
+						Size = UDim2.new(1, grow - 4, 1, grow - 4),
+						ZIndex = 0,
+					}, FeatureFrame2)
+					Custom:Create("UICorner", {
+						CornerRadius = UDim.new(1, 0),
+					}, Layer)
+					GlowLayers[index] = { Frame = Layer, Grow = grow, Transparency = ({ 0.82, 0.9, 0.95 })[index] }
+				end
 
 				local ToggleCircle = Custom:Create("Frame", {
 					Name = "ToggleCircle",
 					BackgroundColor3 = Color3.fromRGB(230, 230, 230),
 					BorderSizePixel = 0,
-					Size = UDim2.fromOffset(13, 13),
+					Size = UDim2.fromOffset(14, 14),
 					Position = UDim2.fromOffset(2, 2),
+					ZIndex = 2,
 				}, FeatureFrame2)
 
 				Custom:Create("UICorner", {
-					CornerRadius = UDim.new(0, 15),
+					CornerRadius = UDim.new(1, 0),
 				}, ToggleCircle)
 
-				local ToggleGlow = Custom:Create("Frame", {
-					Name = "ToggleGlow",
-					AnchorPoint = Vector2.new(0.5, 0.5),
-					BackgroundColor3 = Custom.ColorRGB,
+				local ToggleCheck = Custom:Create("ImageLabel", {
+					Name = "ToggleCheck",
+					Image = Custom.Icons.Check,
+					ImageColor3 = Custom.ColorRGB,
+					ImageTransparency = 1,
 					BackgroundTransparency = 1,
 					BorderSizePixel = 0,
+					AnchorPoint = Vector2.new(0.5, 0.5),
 					Position = UDim2.fromScale(0.5, 0.5),
-					Size = UDim2.new(1, 2, 1, 2),
-					ZIndex = 0,
-				}, FeatureFrame2)
-
-				Custom:Create("UICorner", {
-					CornerRadius = UDim.new(0, 7),
-				}, ToggleGlow)
-
-				local GlowStroke = Custom:Create("UIStroke", {
-					Color = Custom.ColorRGB,
-					Thickness = 3,
-					Transparency = 1,
-				}, ToggleGlow)
+					Size = UDim2.fromOffset(10, 10),
+					ZIndex = 3,
+				}, ToggleCircle)
 
 				local function ToggleAnimation(isOn)
 					local TitleColor = isOn and Custom.ColorRGB or Color3.fromRGB(230, 230, 230)
-					local CirclePosition = isOn and UDim2.fromOffset(17, 2) or UDim2.fromOffset(2, 2)
-					local StrokeColor = isOn and Custom.ColorRGB or Color3.fromRGB(255, 255, 255)
-					local StrokeTransparency = isOn and 0 or 0.9
-					local FrameColor = isOn and Custom.ColorRGB or Custom.Surface
-					local FrameTransparency = 0
+					local CirclePosition = isOn and UDim2.fromOffset(20, 2) or UDim2.fromOffset(2, 2)
+					local tweenInfo = TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
 
-					local tweenInfo = TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut)
-					local glowInfo = TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
-
-					TweenService:Create(ToggleGlow, glowInfo, {
-						BackgroundTransparency = isOn and 0.88 or 1,
-						Size = isOn and UDim2.new(1, 6, 1, 6) or UDim2.new(1, 2, 1, 2),
-					}):Play()
-					TweenService:Create(GlowStroke, glowInfo, { Transparency = isOn and 0.8 or 1 }):Play()
 					TweenService:Create(ToggleTitle, tweenInfo, { TextColor3 = TitleColor }):Play()
 					TweenService:Create(ToggleCircle, tweenInfo, { Position = CirclePosition }):Play()
-					TweenService
-						:Create(UIStroke8, tweenInfo, { Color = StrokeColor, Transparency = StrokeTransparency })
-						:Play()
-					TweenService:Create(
-						FeatureFrame2,
-						tweenInfo,
-						{ BackgroundColor3 = FrameColor, BackgroundTransparency = FrameTransparency }
-					):Play()
+					TweenService:Create(ToggleCheck, tweenInfo, { ImageTransparency = isOn and 0 or 1 }):Play()
+					TweenService:Create(UIStroke8, tweenInfo, {
+						Color = isOn and Custom.ColorRGB or Color3.fromRGB(255, 255, 255),
+						Transparency = isOn and 0 or 0.9,
+					}):Play()
+					TweenService:Create(FeatureFrame2, tweenInfo, {
+						BackgroundColor3 = isOn and Custom.ColorRGB or Color3.fromRGB(38, 38, 38),
+					}):Play()
+					for _, Layer in ipairs(GlowLayers) do
+						TweenService:Create(Layer.Frame, TweenInfo.new(0.35, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+							BackgroundTransparency = isOn and Layer.Transparency or 1,
+							Size = isOn and UDim2.new(1, Layer.Grow, 1, Layer.Grow) or UDim2.new(1, Layer.Grow - 4, 1, Layer.Grow - 4),
+						}):Play()
+					end
 				end
 
 				ToggleButton.Activated:Connect(function()
