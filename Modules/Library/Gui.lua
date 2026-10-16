@@ -795,14 +795,14 @@ function Hydrogen_Library:CreateWindow(Config)
 		Font = Enum.Font.GothamBold,
 		Text = "",
 		TextColor3 = Color3.fromRGB(255, 255, 255),
-		TextSize = 24,
+		TextSize = 20,
 		TextWrapped = true,
 		TextXAlignment = Enum.TextXAlignment.Left,
 		BackgroundColor3 = Color3.fromRGB(255, 255, 255),
 		BackgroundTransparency = 1,
 		BorderColor3 = Color3.fromRGB(0, 0, 0),
 		BorderSizePixel = 0,
-		Size = UDim2.new(1, 0, 0, 30),
+		Size = UDim2.new(1, 0, 0, 26),
 		Name = "NameTab",
 	}, Layers)
 
@@ -814,7 +814,7 @@ function Hydrogen_Library:CreateWindow(Config)
 		BorderSizePixel = 0,
 		ClipsDescendants = true,
 		Position = UDim2.new(0, 0, 1, 0),
-		Size = UDim2.new(1, 0, 1, -33),
+		Size = UDim2.new(1, 0, 1, -29),
 		Name = "LayersReal",
 	}, Layers)
 
@@ -1822,7 +1822,7 @@ function Hydrogen_Library:CreateWindow(Config)
 			BorderColor3 = Color3.fromRGB(0, 0, 0),
 			BorderSizePixel = 0,
 			LayoutOrder = CountTab,
-			Size = UDim2.new(1, 0, 0, 30),
+			Size = UDim2.new(1, 0, 0, 26),
 			Name = "Tab",
 			Parent = ScrollTab,
 		})
@@ -1836,7 +1836,7 @@ function Hydrogen_Library:CreateWindow(Config)
 			Font = Enum.Font.GothamBold,
 			Text = "",
 			TextColor3 = Color3.fromRGB(255, 255, 255),
-			TextSize = 13,
+			TextSize = 12,
 			TextXAlignment = Enum.TextXAlignment.Left,
 			BackgroundColor3 = Color3.fromRGB(255, 255, 255),
 			BackgroundTransparency = 1,
@@ -1850,14 +1850,14 @@ function Hydrogen_Library:CreateWindow(Config)
 			Font = Enum.Font.GothamBold,
 			Text = _Name,
 			TextColor3 = Color3.fromRGB(255, 255, 255),
-			TextSize = 13,
+			TextSize = 12,
 			TextXAlignment = Enum.TextXAlignment.Left,
 			BackgroundColor3 = Color3.fromRGB(255, 255, 255),
 			BackgroundTransparency = 1,
 			BorderColor3 = Color3.fromRGB(0, 0, 0),
 			BorderSizePixel = 0,
 			Size = UDim2.new(1, 0, 1, 0),
-			Position = UDim2.new(0, 30, 0, 0),
+			Position = UDim2.new(0, 28, 0, 0),
 			Name = "TabName",
 		}, Tab)
 
@@ -1867,8 +1867,8 @@ function Hydrogen_Library:CreateWindow(Config)
 			BackgroundTransparency = 1,
 			BorderColor3 = Color3.fromRGB(0, 0, 0),
 			BorderSizePixel = 0,
-			Position = UDim2.new(0, 9, 0, 7),
-			Size = UDim2.new(0, 16, 0, 16),
+			Position = UDim2.new(0, 9, 0, 6),
+			Size = UDim2.new(0, 14, 0, 14),
 			Name = "FeatureImg",
 		}, Tab)
 
@@ -1880,7 +1880,7 @@ function Hydrogen_Library:CreateWindow(Config)
 				BackgroundColor3 = Custom.ColorRGB,
 				BorderColor3 = Color3.fromRGB(0, 0, 0),
 				BorderSizePixel = 0,
-				Position = UDim2.new(0, 2, 0, 9),
+				Position = UDim2.new(0, 2, 0, 7),
 				Size = UDim2.new(0, 1, 0, 12),
 				Name = "ChooseFrame",
 			}, Tab)
@@ -1929,7 +1929,7 @@ function Hydrogen_Library:CreateWindow(Config)
 				local _FTween = TweenService:Create(
 					FrameChoose,
 					TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),
-					{ Position = UDim2.new(0, 2, 0, 9) }
+					{ Position = UDim2.new(0, 2, 0, 7) }
 				)
 
 				FrameChoose.Parent = Tab
@@ -1969,7 +1969,7 @@ function Hydrogen_Library:CreateWindow(Config)
 				BorderSizePixel = 0,
 				ClipsDescendants = true,
 				LayoutOrder = CountSection,
-				Size = UDim2.new(1, 0, 0, 30),
+				Size = UDim2.new(1, 0, 0, 26),
 				Name = "Section",
 			}, ScrolLayers)
 
@@ -1981,7 +1981,7 @@ function Hydrogen_Library:CreateWindow(Config)
 				BorderSizePixel = 0,
 				LayoutOrder = 1,
 				Position = UDim2.new(0.5, 0, 0, 0),
-				Size = UDim2.new(1, 1, 0, 30),
+				Size = UDim2.new(1, 1, 0, 26),
 				Name = "SectionReal",
 			}, Section)
 
@@ -2031,7 +2031,7 @@ function Hydrogen_Library:CreateWindow(Config)
 				Font = Enum.Font.GothamBold,
 				Text = Title,
 				TextColor3 = Color3.fromRGB(230, 230, 230),
-				TextSize = 13,
+				TextSize = 12,
 				TextXAlignment = Enum.TextXAlignment.Left,
 				TextYAlignment = Enum.TextYAlignment.Top,
 				AnchorPoint = Vector2.new(0, 0.5),
@@ -2040,7 +2040,7 @@ function Hydrogen_Library:CreateWindow(Config)
 				BorderColor3 = Color3.fromRGB(0, 0, 0),
 				BorderSizePixel = 0,
 				Position = UDim2.new(0, 10, 0.5, 0),
-				Size = UDim2.new(1, -50, 0, 13),
+				Size = UDim2.new(1, -50, 0, 12),
 				Name = "SectionTitle",
 			}, SectionReal)
 
@@ -2049,7 +2049,7 @@ function Hydrogen_Library:CreateWindow(Config)
 				BorderColor3 = Color3.fromRGB(0, 0, 0),
 				BorderSizePixel = 0,
 				AnchorPoint = Vector2.new(0.5, 0),
-				Position = UDim2.new(0.5, 0, 0, 33),
+				Position = UDim2.new(0.5, 0, 0, 29),
 				Size = UDim2.new(0, 0, 0, 2),
 				Name = "SectionDecideFrame",
 			}, Section)
@@ -2070,7 +2070,7 @@ function Hydrogen_Library:CreateWindow(Config)
 				BorderSizePixel = 0,
 				ClipsDescendants = true,
 				LayoutOrder = 1,
-				Position = UDim2.new(0.5, 0, 0, 38),
+				Position = UDim2.new(0.5, 0, 0, 34),
 				Size = UDim2.new(1, 0, 0, 100),
 				Name = "SectionAdd",
 			}, Section)
@@ -2098,7 +2098,7 @@ function Hydrogen_Library:CreateWindow(Config)
 
 			local function UpdateSizeSection()
 				if OpenSection or Search.Text ~= "" then
-					local SectionSizeYWitdh = 38
+					local SectionSizeYWitdh = 34
 
 					for _, v in pairs(SectionAdd:GetChildren()) do
 						if v:IsA("GuiObject") and v.Visible then
@@ -2110,7 +2110,7 @@ function Hydrogen_Library:CreateWindow(Config)
 					TweenService:Create(Section, TweenInfo.new(0.1), { Size = UDim2.new(1, 1, 0, SectionSizeYWitdh) })
 						:Play()
 					TweenService
-						:Create(SectionAdd, TweenInfo.new(0.1), { Size = UDim2.new(1, 0, 0, SectionSizeYWitdh - 38) })
+						:Create(SectionAdd, TweenInfo.new(0.1), { Size = UDim2.new(1, 0, 0, SectionSizeYWitdh - 34) })
 						:Play()
 					TweenService:Create(SectionDecideFrame, TweenInfo.new(0.1), { Size = UDim2.new(1, 0, 0, 2) }):Play()
 
@@ -2124,7 +2124,7 @@ function Hydrogen_Library:CreateWindow(Config)
 
 				if OpenSection then
 					TweenService:Create(FeatureFrame, TweenInfo.new(0.1), { Rotation = 0 }):Play()
-					TweenService:Create(Section, TweenInfo.new(0.1), { Size = UDim2.new(1, 1, 0, 30) }):Play()
+					TweenService:Create(Section, TweenInfo.new(0.1), { Size = UDim2.new(1, 1, 0, 26) }):Play()
 					TweenService:Create(SectionDecideFrame, TweenInfo.new(0.1), { Size = UDim2.new(0, 0, 0, 2) }):Play()
 
 					OpenSection = false
@@ -2156,7 +2156,7 @@ function Hydrogen_Library:CreateWindow(Config)
 				if OpenSection or query ~= "" then
 					UpdateSizeSection()
 				else
-					Section.Size = UDim2.new(1, 0, 0, 30)
+					Section.Size = UDim2.new(1, 0, 0, 26)
 				end
 				UpdateSizeScroll()
 			end
@@ -2187,7 +2187,7 @@ function Hydrogen_Library:CreateWindow(Config)
 					BorderColor3 = Color3.fromRGB(0, 0, 0),
 					BorderSizePixel = 0,
 					LayoutOrder = ItemCount,
-					Size = UDim2.new(1, 0, 0, 35),
+					Size = UDim2.new(1, 0, 0, 30),
 					Name = "Paragraph",
 				}, SectionAdd)
 
@@ -2199,14 +2199,14 @@ function Hydrogen_Library:CreateWindow(Config)
 					Font = Enum.Font.GothamBold,
 					Text = Title,
 					TextColor3 = Color3.fromRGB(231, 231, 231),
-					TextSize = 13,
+					TextSize = 12,
 					TextXAlignment = Enum.TextXAlignment.Left,
 					TextYAlignment = Enum.TextYAlignment.Top,
 					BackgroundColor3 = Color3.fromRGB(255, 255, 255),
 					BackgroundTransparency = 1,
 					BorderSizePixel = 0,
-					Position = UDim2.new(0, 10, 0, 10),
-					Size = UDim2.new(1, -16, 0, 13),
+					Position = UDim2.new(0, 10, 0, 7),
+					Size = UDim2.new(1, -16, 0, 11),
 					Name = "ParagraphTitle",
 				}, Paragraph)
 
@@ -2214,13 +2214,13 @@ function Hydrogen_Library:CreateWindow(Config)
 					Font = Enum.Font.GothamBold,
 					Text = Content,
 					TextColor3 = Color3.fromRGB(255, 255, 255),
-					TextSize = 12,
+					TextSize = 11,
 					TextTransparency = 0.6,
 					TextXAlignment = Enum.TextXAlignment.Left,
 					TextYAlignment = Enum.TextYAlignment.Bottom,
 					BackgroundTransparency = 1,
 					BorderSizePixel = 0,
-					Position = UDim2.new(0, 10, 0, 23),
+					Position = UDim2.new(0, 10, 0, 19),
 					Name = "ParagraphContent",
 				}, Paragraph)
 
@@ -2229,8 +2229,8 @@ function Hydrogen_Library:CreateWindow(Config)
 					local lineCount =
 						math.ceil(ParagraphContent.TextBounds.X / math.max(1, ParagraphContent.AbsoluteSize.X))
 
-					ParagraphContent.Size = UDim2.new(1, -16, 0, 12 + (12 * lineCount))
-					Paragraph.Size = UDim2.new(1, 0, 0, ParagraphContent.AbsoluteSize.Y + 33)
+					ParagraphContent.Size = UDim2.new(1, -16, 0, 11 + (11 * lineCount))
+					Paragraph.Size = UDim2.new(1, 0, 0, ParagraphContent.AbsoluteSize.Y + 28)
 					ParagraphContent.TextWrapped = true
 
 					UpdateSizeSection()
@@ -2346,7 +2346,7 @@ function Hydrogen_Library:CreateWindow(Config)
 					BackgroundTransparency = 0,
 					BorderSizePixel = 0,
 					LayoutOrder = ItemCount,
-					Size = UDim2.new(1, 0, 0, 35),
+					Size = UDim2.new(1, 0, 0, 30),
 				}, SectionAdd)
 
 				Custom:Create("UICorner", {
@@ -2358,14 +2358,14 @@ function Hydrogen_Library:CreateWindow(Config)
 					Font = Enum.Font.GothamBold,
 					Text = Title,
 					TextColor3 = Color3.fromRGB(231, 231, 231),
-					TextSize = 13,
+					TextSize = 12,
 					TextXAlignment = Enum.TextXAlignment.Left,
 					TextYAlignment = Enum.TextYAlignment.Top,
 					BackgroundColor3 = Color3.fromRGB(255, 255, 255),
 					BackgroundTransparency = 1,
 					BorderSizePixel = 0,
-					Position = UDim2.new(0, 10, 0, 10),
-					Size = UDim2.new(1, -72, 0, 13),
+					Position = UDim2.new(0, 10, 0, 7),
+					Size = UDim2.new(1, -72, 0, 11),
 				}, Button)
 
 				local ButtonContent = Custom:Create("TextLabel", {
@@ -2373,27 +2373,27 @@ function Hydrogen_Library:CreateWindow(Config)
 					Font = Enum.Font.GothamBold,
 					Text = Content,
 					TextColor3 = Color3.fromRGB(255, 255, 255),
-					TextSize = 12,
+					TextSize = 11,
 					TextTransparency = 0.6,
 					TextXAlignment = Enum.TextXAlignment.Left,
 					TextYAlignment = Enum.TextYAlignment.Bottom,
 					BackgroundColor3 = Color3.fromRGB(255, 255, 255),
 					BackgroundTransparency = 1,
 					BorderSizePixel = 0,
-					Position = UDim2.new(0, 10, 0, 23),
-					Size = UDim2.new(1, -72, 0, 12),
+					Position = UDim2.new(0, 10, 0, 19),
+					Size = UDim2.new(1, -72, 0, 11),
 				}, Button)
 
 				local function UpdateButtonSize()
 					local bounds = TextService:GetTextSize(
 						ButtonContent.Text,
-						12,
+						11,
 						Enum.Font.GothamBold,
 						Vector2.new(math.max(1, ButtonContent.AbsoluteSize.X), 10000)
 					)
-					local height = ButtonContent.Text == "" and 0 or math.max(12, bounds.Y)
+					local height = ButtonContent.Text == "" and 0 or math.max(11, bounds.Y)
 					ButtonContent.Size = UDim2.new(1, -72, 0, height)
-					Button.Size = UDim2.new(1, 0, 0, math.max(44, height + 35))
+					Button.Size = UDim2.new(1, 0, 0, math.max(36, height + 29))
 					ButtonContent.TextWrapped = true
 				end
 
@@ -2426,7 +2426,7 @@ function Hydrogen_Library:CreateWindow(Config)
 					BackgroundTransparency = 1,
 					BorderSizePixel = 0,
 					Position = UDim2.new(1, -15, 0.5, 0),
-					Size = UDim2.new(0, 25, 0, 25),
+					Size = UDim2.new(0, 20, 0, 20),
 				}, Button)
 
 				Custom:Create("ImageLabel", {
@@ -2464,7 +2464,7 @@ function Hydrogen_Library:CreateWindow(Config)
 					BackgroundTransparency = 0,
 					BorderSizePixel = 0,
 					LayoutOrder = ItemCount,
-					Size = UDim2.new(1, 0, 0, 35),
+					Size = UDim2.new(1, 0, 0, 30),
 				}, SectionAdd)
 
 				Custom:Create("UICorner", {
@@ -2475,15 +2475,15 @@ function Hydrogen_Library:CreateWindow(Config)
 					Name = "ToggleTitle",
 					Font = Enum.Font.GothamBold,
 					Text = Title,
-					TextSize = 13,
+					TextSize = 12,
 					TextColor3 = Color3.fromRGB(231, 231, 231),
 					TextXAlignment = Enum.TextXAlignment.Left,
 					TextYAlignment = Enum.TextYAlignment.Top,
 					BackgroundColor3 = Color3.fromRGB(255, 255, 255),
 					BackgroundTransparency = 1,
 					BorderSizePixel = 0,
-					Position = UDim2.new(0, 10, 0, 10),
-					Size = UDim2.new(1, -76, 0, 13),
+					Position = UDim2.new(0, 10, 0, 7),
+					Size = UDim2.new(1, -76, 0, 11),
 				}, Toggle)
 
 				local ToggleContent = Custom:Create("TextLabel", {
@@ -2498,20 +2498,20 @@ function Hydrogen_Library:CreateWindow(Config)
 					BackgroundColor3 = Color3.fromRGB(255, 255, 255),
 					BackgroundTransparency = 1,
 					BorderSizePixel = 0,
-					Position = UDim2.new(0, 10, 0, 23),
-					Size = UDim2.new(1, -76, 0, 12),
+					Position = UDim2.new(0, 10, 0, 19),
+					Size = UDim2.new(1, -76, 0, 11),
 				}, Toggle)
 
 				local function UpdateToggleSize()
 					local bounds = TextService:GetTextSize(
 						ToggleContent.Text,
-						12,
+						11,
 						Enum.Font.GothamBold,
 						Vector2.new(math.max(1, ToggleContent.AbsoluteSize.X), 10000)
 					)
-					local height = ToggleContent.Text == "" and 0 or math.max(12, bounds.Y)
+					local height = ToggleContent.Text == "" and 0 or math.max(11, bounds.Y)
 					ToggleContent.Size = UDim2.new(1, -76, 0, height)
-					Toggle.Size = UDim2.new(1, 0, 0, math.max(44, height + 35))
+					Toggle.Size = UDim2.new(1, 0, 0, math.max(36, height + 29))
 					ToggleContent.TextWrapped = true
 				end
 
@@ -2541,7 +2541,7 @@ function Hydrogen_Library:CreateWindow(Config)
 					BackgroundTransparency = 0.92,
 					BorderSizePixel = 0,
 					Position = UDim2.new(1, -15, 0.5, 0),
-					Size = UDim2.fromOffset(38, 20),
+					Size = UDim2.fromOffset(32, 17),
 				}, Toggle)
 
 				Custom:Create("UICorner", {
@@ -2558,7 +2558,7 @@ function Hydrogen_Library:CreateWindow(Config)
 					Name = "ToggleCircle",
 					BackgroundColor3 = Color3.fromRGB(230, 230, 230),
 					BorderSizePixel = 0,
-					Size = UDim2.fromOffset(16, 16),
+					Size = UDim2.fromOffset(13, 13),
 					Position = UDim2.fromOffset(2, 2),
 				}, FeatureFrame2)
 
@@ -2568,7 +2568,7 @@ function Hydrogen_Library:CreateWindow(Config)
 
 				local function ToggleAnimation(isOn)
 					local TitleColor = isOn and Custom.ColorRGB or Color3.fromRGB(230, 230, 230)
-					local CirclePosition = isOn and UDim2.fromOffset(20, 2) or UDim2.fromOffset(2, 2)
+					local CirclePosition = isOn and UDim2.fromOffset(17, 2) or UDim2.fromOffset(2, 2)
 					local StrokeColor = isOn and Custom.ColorRGB or Color3.fromRGB(255, 255, 255)
 					local StrokeTransparency = isOn and 0 or 0.9
 					local FrameColor = isOn and Custom.ColorRGB or Custom.Surface
@@ -2636,7 +2636,7 @@ function Hydrogen_Library:CreateWindow(Config)
 					BorderColor3 = Color3.fromRGB(0, 0, 0),
 					BorderSizePixel = 0,
 					LayoutOrder = ItemCount,
-					Size = UDim2.new(1, 0, 0, 35),
+					Size = UDim2.new(1, 0, 0, 30),
 					Name = "Slider",
 				}, SectionAdd)
 
@@ -2648,15 +2648,15 @@ function Hydrogen_Library:CreateWindow(Config)
 					Font = Enum.Font.GothamBold,
 					Text = Title,
 					TextColor3 = Color3.fromRGB(230, 230, 230),
-					TextSize = 13,
+					TextSize = 12,
 					TextXAlignment = Enum.TextXAlignment.Left,
 					TextYAlignment = Enum.TextYAlignment.Top,
 					BackgroundColor3 = Color3.fromRGB(255, 255, 255),
 					BackgroundTransparency = 1,
 					BorderColor3 = Color3.fromRGB(0, 0, 0),
 					BorderSizePixel = 0,
-					Position = UDim2.new(0, 10, 0, 10),
-					Size = UDim2.new(1, -180, 0, 13),
+					Position = UDim2.new(0, 10, 0, 7),
+					Size = UDim2.new(1, -190, 0, 11),
 					Name = "SliderTitle",
 				}, Slider)
 
@@ -2664,7 +2664,7 @@ function Hydrogen_Library:CreateWindow(Config)
 					Font = Enum.Font.GothamBold,
 					Text = Content,
 					TextColor3 = Color3.fromRGB(255, 255, 255),
-					TextSize = 12,
+					TextSize = 11,
 					TextTransparency = 0.6000000238418579,
 					TextXAlignment = Enum.TextXAlignment.Left,
 					TextYAlignment = Enum.TextYAlignment.Bottom,
@@ -2672,8 +2672,8 @@ function Hydrogen_Library:CreateWindow(Config)
 					BackgroundTransparency = 1,
 					BorderColor3 = Color3.fromRGB(0, 0, 0),
 					BorderSizePixel = 0,
-					Position = UDim2.new(0, 10, 0, 23),
-					Size = UDim2.new(1, -180, 0, 12),
+					Position = UDim2.new(0, 10, 0, 19),
+					Size = UDim2.new(1, -190, 0, 11),
 					Name = "SliderContent",
 				}, Slider)
 
@@ -2681,11 +2681,11 @@ function Hydrogen_Library:CreateWindow(Config)
 					SliderContent.TextWrapped = false
 					SliderContent.Size = UDim2.new(
 						1,
-						-180,
+						-190,
 						0,
-						12 + (12 * math.floor(SliderContent.TextBounds.X / math.max(1, SliderContent.AbsoluteSize.X)))
+						11 + (11 * math.floor(SliderContent.TextBounds.X / math.max(1, SliderContent.AbsoluteSize.X)))
 					)
-					Slider.Size = UDim2.new(1, 0, 0, SliderContent.AbsoluteSize.Y + 33)
+					Slider.Size = UDim2.new(1, 0, 0, SliderContent.AbsoluteSize.Y + 28)
 					SliderContent.TextWrapped = true
 				end
 
@@ -2700,7 +2700,7 @@ function Hydrogen_Library:CreateWindow(Config)
 					BackgroundColor3 = Custom.Background,
 					BackgroundTransparency = 0,
 					BorderSizePixel = 0,
-					Position = UDim2.new(1, -160, 0.5, 0),
+					Position = UDim2.new(1, -172, 0.5, 0),
 					Size = UDim2.fromOffset(34, 18),
 					Name = "SliderInput",
 				}, Slider)
@@ -2884,7 +2884,7 @@ function Hydrogen_Library:CreateWindow(Config)
 					BorderColor3 = Color3.fromRGB(0, 0, 0),
 					BorderSizePixel = 0,
 					LayoutOrder = ItemCount,
-					Size = UDim2.new(1, 0, 0, 35),
+					Size = UDim2.new(1, 0, 0, 30),
 					Name = "Input",
 				}, SectionAdd)
 
@@ -2896,15 +2896,15 @@ function Hydrogen_Library:CreateWindow(Config)
 					Font = Enum.Font.GothamBold,
 					Text = Title,
 					TextColor3 = Color3.fromRGB(230, 230, 230),
-					TextSize = 13,
+					TextSize = 12,
 					TextXAlignment = Enum.TextXAlignment.Left,
 					TextYAlignment = Enum.TextYAlignment.Top,
 					BackgroundColor3 = Color3.fromRGB(255, 255, 255),
 					BackgroundTransparency = 1,
 					BorderColor3 = Color3.fromRGB(0, 0, 0),
 					BorderSizePixel = 0,
-					Position = UDim2.new(0, 10, 0, 10),
-					Size = UDim2.new(1, -180, 0, 13),
+					Position = UDim2.new(0, 10, 0, 7),
+					Size = UDim2.new(1, -190, 0, 11),
 					Name = "InputTitle",
 				}, Input)
 
@@ -2912,7 +2912,7 @@ function Hydrogen_Library:CreateWindow(Config)
 					Font = Enum.Font.GothamBold,
 					Text = Content,
 					TextColor3 = Color3.fromRGB(255, 255, 255),
-					TextSize = 12,
+					TextSize = 11,
 					TextTransparency = 0.6,
 					TextWrapped = true,
 					TextXAlignment = Enum.TextXAlignment.Left,
@@ -2921,18 +2921,18 @@ function Hydrogen_Library:CreateWindow(Config)
 					BackgroundTransparency = 1,
 					BorderColor3 = Color3.fromRGB(0, 0, 0),
 					BorderSizePixel = 0,
-					Position = UDim2.new(0, 10, 0, 23),
-					Size = UDim2.new(1, -180, 0, 12),
+					Position = UDim2.new(0, 10, 0, 19),
+					Size = UDim2.new(1, -190, 0, 11),
 					Name = "InputContent",
 					Parent = Input,
 				})
 
 				local function UpdateInputSize()
 					local Ratio = InputContent.TextBounds.X / math.max(1, InputContent.AbsoluteSize.X)
-					local Calculated = 12 + (12 * math.floor(Ratio))
+					local Calculated = 11 + (11 * math.floor(Ratio))
 
 					InputContent.Size = UDim2.new(1, -180, 0, Calculated)
-					Input.Size = UDim2.new(1, 0, 0, InputContent.AbsoluteSize.Y + 33)
+					Input.Size = UDim2.new(1, 0, 0, InputContent.AbsoluteSize.Y + 28)
 				end
 
 				UpdateInputSize()
@@ -2952,7 +2952,7 @@ function Hydrogen_Library:CreateWindow(Config)
 					BorderSizePixel = 0,
 					ClipsDescendants = true,
 					Position = UDim2.new(1, -7, 0.5, 0),
-					Size = UDim2.new(0, 148, 0, 30),
+					Size = UDim2.new(0, 130, 0, 26),
 					Name = "InputFrame",
 				}, Input)
 
@@ -3018,7 +3018,7 @@ function Hydrogen_Library:CreateWindow(Config)
 					BorderColor3 = Color3.fromRGB(0, 0, 0),
 					BorderSizePixel = 0,
 					LayoutOrder = ItemCount,
-					Size = UDim2.new(1, 0, 0, 35),
+					Size = UDim2.new(1, 0, 0, 30),
 					Name = "Dropdown",
 				}, SectionAdd)
 
@@ -3043,15 +3043,15 @@ function Hydrogen_Library:CreateWindow(Config)
 					Font = Enum.Font.GothamBold,
 					Text = Title,
 					TextColor3 = Color3.fromRGB(230, 230, 230),
-					TextSize = 13,
+					TextSize = 12,
 					TextXAlignment = Enum.TextXAlignment.Left,
 					TextYAlignment = Enum.TextYAlignment.Top,
 					BackgroundColor3 = Color3.fromRGB(255, 255, 255),
 					BackgroundTransparency = 1,
 					BorderColor3 = Color3.fromRGB(0, 0, 0),
 					BorderSizePixel = 0,
-					Position = UDim2.new(0, 10, 0, 10),
-					Size = UDim2.new(1, -166, 0, 13),
+					Position = UDim2.new(0, 10, 0, 7),
+					Size = UDim2.new(1, -166, 0, 11),
 					Name = "DropdownTitle",
 					Parent = Dropdown,
 				})
@@ -3060,7 +3060,7 @@ function Hydrogen_Library:CreateWindow(Config)
 					Font = Enum.Font.GothamBold,
 					Text = Content,
 					TextColor3 = Color3.fromRGB(255, 255, 255),
-					TextSize = 12,
+					TextSize = 11,
 					TextTransparency = 0.6,
 					TextWrapped = true,
 					TextXAlignment = Enum.TextXAlignment.Left,
@@ -3069,8 +3069,8 @@ function Hydrogen_Library:CreateWindow(Config)
 					BackgroundTransparency = 1,
 					BorderColor3 = Color3.fromRGB(0, 0, 0),
 					BorderSizePixel = 0,
-					Position = UDim2.new(0, 10, 0, 23),
-					Size = UDim2.new(1, -166, 0, 12),
+					Position = UDim2.new(0, 10, 0, 19),
+					Size = UDim2.new(1, -166, 0, 11),
 					Name = "DropdownContent",
 					Parent = Dropdown,
 				})
@@ -3078,13 +3078,13 @@ function Hydrogen_Library:CreateWindow(Config)
 				local function UpdateDropdownSize()
 					local bounds = TextService:GetTextSize(
 						Content,
-						12,
+						11,
 						Enum.Font.GothamBold,
 						Vector2.new(math.max(1, DropdownContent.AbsoluteSize.X), 10000)
 					)
-					local height = Content == "" and 0 or math.max(12, bounds.Y)
+					local height = Content == "" and 0 or math.max(11, bounds.Y)
 					DropdownContent.Size = UDim2.new(1, -166, 0, height)
-					Dropdown.Size = UDim2.new(1, 0, 0, math.max(44, height + 35))
+					Dropdown.Size = UDim2.new(1, 0, 0, math.max(36, height + 29))
 				end
 				UpdateDropdownSize()
 				DropdownContent:GetPropertyChangedSignal("AbsoluteSize"):Connect(function()
@@ -3099,7 +3099,7 @@ function Hydrogen_Library:CreateWindow(Config)
 					BorderColor3 = Color3.fromRGB(0, 0, 0),
 					BorderSizePixel = 0,
 					Position = UDim2.new(1, -7, 0.5, 0),
-					Size = UDim2.new(0, 148, 0, 30),
+					Size = UDim2.new(0, 130, 0, 26),
 					Name = "SelectOptionsFrame",
 					LayoutOrder = CountDropdown,
 				}, Dropdown)
@@ -3129,7 +3129,7 @@ function Hydrogen_Library:CreateWindow(Config)
 					Font = Enum.Font.GothamBold,
 					Text = "",
 					TextColor3 = Color3.fromRGB(255, 255, 255),
-					TextSize = 12,
+					TextSize = 11,
 					TextTransparency = 0.6,
 					TextWrapped = false,
 					TextTruncate = Enum.TextTruncate.AtEnd,
@@ -3153,7 +3153,7 @@ function Hydrogen_Library:CreateWindow(Config)
 					BorderColor3 = Color3.fromRGB(0, 0, 0),
 					BorderSizePixel = 0,
 					Position = UDim2.new(1, 0, 0.5, 0),
-					Size = UDim2.new(0, 25, 0, 25),
+					Size = UDim2.new(0, 20, 0, 20),
 					Name = "OptionImg",
 				}, SelectOptionsFrame)
 
@@ -3276,7 +3276,7 @@ function Hydrogen_Library:CreateWindow(Config)
 						Font = Enum.Font.GothamBold,
 						Text = "",
 						TextColor3 = Color3.fromRGB(255, 255, 255),
-						TextSize = 13,
+						TextSize = 12,
 						TextXAlignment = Enum.TextXAlignment.Left,
 						BackgroundColor3 = Color3.fromRGB(255, 255, 255),
 						BackgroundTransparency = 1,
@@ -3289,7 +3289,7 @@ function Hydrogen_Library:CreateWindow(Config)
 					Custom:Create("TextLabel", {
 						Font = Enum.Font.GothamBold,
 						Text = OptionName,
-						TextSize = 13,
+						TextSize = 12,
 						TextColor3 = Color3.fromRGB(230, 230, 230),
 						TextXAlignment = Enum.TextXAlignment.Left,
 						TextYAlignment = Enum.TextYAlignment.Top,
