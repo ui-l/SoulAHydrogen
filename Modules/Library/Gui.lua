@@ -409,9 +409,16 @@ local function AnimateLine(Gradient)
 	return Gradient
 end
 
-local Hydrogen_Library = { Unloaded = false, NotificationsVisible = true, FolderName = FolderName, GuiName = GuiName }
+local Hydrogen_Library = {
+	Unloaded = false,
+	NotificationsVisible = true,
+	MaxNotifications = 5,
+	FolderName = FolderName,
+	GuiName = GuiName,
+}
 local NotificationGui, NotificationLayout
 local NotificationCount = 0
+local ActiveNotifications = {}
 
 function Hydrogen_Library:GetIcon(Name)
 	return GetIcon(Name)
@@ -560,6 +567,12 @@ function Hydrogen_Library:SetNotification(Config)
 			return
 		end
 		self.Closed = true
+		for index, active in ipairs(ActiveNotifications) do
+			if active == self then
+				table.remove(ActiveNotifications, index)
+				break
+			end
+		end
 		if not Holder.Parent then
 			return
 		end
@@ -586,6 +599,11 @@ function Hydrogen_Library:SetNotification(Config)
 		task.delay(Delay, function()
 			Handle:Close()
 		end)
+	end
+	table.insert(ActiveNotifications, Handle)
+	while #ActiveNotifications > Hydrogen_Library.MaxNotifications do
+		local Oldest = table.remove(ActiveNotifications, 1)
+		Oldest:Close()
 	end
 	return Handle
 end
@@ -2491,6 +2509,71 @@ function Hydrogen_Library:CreateWindow(Config)
 
 				ItemCount += 1
 				return SettingFuncs
+			end
+
+			function Item:AddLabel(Config)
+				if type(Config) ~= "table" then
+					Config = { Config }
+				end
+				local Text = tostring(Config[1] or Config.Text or Config.Title or "")
+				local Label_Funcs = {}
+
+				local LabelFrame = Custom:Create("Frame", {
+					Name = "Label",
+					BackgroundColor3 = Custom.Surface,
+					BackgroundTransparency = 0,
+					BorderSizePixel = 0,
+					LayoutOrder = ItemCount,
+					Size = UDim2.new(1, 0, 0, 30),
+				}, SectionAdd)
+
+				Custom:Create("UICorner", {
+					CornerRadius = UDim.new(0, 4),
+				}, LabelFrame)
+
+				local LabelText = Custom:Create("TextLabel", {
+					Name = "LabelText",
+					Font = Enum.Font.GothamBold,
+					Text = Text,
+					TextSize = 12,
+					TextColor3 = Color3.fromRGB(231, 231, 231),
+					TextTransparency = 0.35,
+					TextWrapped = true,
+					TextXAlignment = Enum.TextXAlignment.Left,
+					TextYAlignment = Enum.TextYAlignment.Top,
+					BackgroundTransparency = 1,
+					BorderSizePixel = 0,
+					Position = UDim2.fromOffset(10, 8),
+					Size = UDim2.new(1, -20, 0, 14),
+				}, LabelFrame)
+
+				local function UpdateLabelSize()
+					local bounds = TextService:GetTextSize(
+						LabelText.Text,
+						12,
+						Enum.Font.GothamBold,
+						Vector2.new(math.max(1, LabelText.AbsoluteSize.X), 10000)
+					)
+					local height = math.max(14, bounds.Y)
+					LabelText.Size = UDim2.new(1, -20, 0, height)
+					LabelFrame.Size = UDim2.new(1, 0, 0, height + 16)
+				end
+
+				UpdateLabelSize()
+
+				LabelText:GetPropertyChangedSignal("AbsoluteSize"):Connect(function()
+					UpdateLabelSize()
+					UpdateSizeSection()
+				end)
+
+				function Label_Funcs:Set(NewText)
+					LabelText.Text = tostring(NewText or "")
+					UpdateLabelSize()
+					UpdateSizeSection()
+				end
+
+				ItemCount += 1
+				return Label_Funcs
 			end
 
 			function Item:AddSeperator(Config)
