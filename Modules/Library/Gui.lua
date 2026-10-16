@@ -277,7 +277,7 @@ local function OpenClose()
 		CornerRadius = UDim.new(1, 0),
 	}, Close_ImageButton)
 
-	local dragging, dragStart, startPos = false, nil, nil
+	local dragging, dragInput, dragStart, startPos = false, nil, nil, nil
 
 	local function UpdateDraggable(input)
 		local delta = input.Position - dragStart
@@ -291,6 +291,7 @@ local function OpenClose()
 			or input.UserInputType == Enum.UserInputType.MouseButton1
 		then
 			dragging = true
+			dragInput = input
 			dragStart = input.Position
 			startPos = Close_ImageButton.Position
 
@@ -302,17 +303,17 @@ local function OpenClose()
 		end
 	end)
 
-	Close_ImageButton.InputChanged:Connect(function(input)
+	table.insert(Connections, UserInputService.InputChanged:Connect(function(input)
 		if
 			dragging
 			and (
 				input.UserInputType == Enum.UserInputType.MouseMovement
-				or input.UserInputType == Enum.UserInputType.Touch
+				or (input.UserInputType == Enum.UserInputType.Touch and input == dragInput)
 			)
 		then
 			UpdateDraggable(input)
 		end
-	end)
+	end))
 
 	return Close_ImageButton
 end
@@ -320,7 +321,7 @@ end
 local Open_Close = OpenClose()
 
 local function MakeDraggable(topbarobject, object)
-	local dragging, dragStart, startPos = false, nil, nil
+	local dragging, dragInput, dragStart, startPos = false, nil, nil, nil
 
 	local function UpdatePos(input)
 		local delta = input.Position - dragStart
@@ -335,6 +336,7 @@ local function MakeDraggable(topbarobject, object)
 			or input.UserInputType == Enum.UserInputType.Touch
 		then
 			dragging = true
+			dragInput = input
 			dragStart = input.Position
 			startPos = object.Position
 
@@ -346,17 +348,17 @@ local function MakeDraggable(topbarobject, object)
 		end
 	end)
 
-	topbarobject.InputChanged:Connect(function(input)
+	table.insert(Connections, UserInputService.InputChanged:Connect(function(input)
 		if
 			dragging
 			and (
 				input.UserInputType == Enum.UserInputType.MouseMovement
-				or input.UserInputType == Enum.UserInputType.Touch
+				or (input.UserInputType == Enum.UserInputType.Touch and input == dragInput)
 			)
 		then
 			UpdatePos(input)
 		end
-	end)
+	end))
 end
 
 local function CircleClick(Button, X, Y)
@@ -1142,6 +1144,7 @@ function Hydrogen_Library:CreateWindow(Config)
 
 	DropShadowHolder.Size = SizeUi
 	MakeDraggable(TextLabel, DropShadowHolder)
+	MakeDraggable(Top, DropShadowHolder)
 	TextLabel.Active = true
 
 	local MinWindow = Vector2.new(math.max(360, TabWidth + 240), 240)
