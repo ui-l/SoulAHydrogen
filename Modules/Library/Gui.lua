@@ -6,6 +6,7 @@ local UserInputService = game:GetService("UserInputService")
 local VirtualUser = game:GetService("VirtualUser")
 local TextService = game:GetService("TextService")
 local HttpService = game:GetService("HttpService")
+local StatsService = game:GetService("Stats")
 
 local Connections = {}
 local ConfigItems = {}
@@ -195,6 +196,22 @@ local function AssetImage(Value, Fallback)
 		return GetIcon(Value) or Fallback or ""
 	end
 	return Fallback or ""
+end
+
+local function GetPing()
+	local ok, value = pcall(function()
+		return StatsService.Network.ServerStatsItem["Data Ping"]:GetValue()
+	end)
+	if ok and type(value) == "number" then
+		return math.floor(value + 0.5)
+	end
+	local ok2, value2 = pcall(function()
+		return Player:GetNetworkPing() * 1000
+	end)
+	if ok2 and type(value2) == "number" then
+		return math.floor(value2 + 0.5)
+	end
+	return 0
 end
 
 local function CopyText(Text)
@@ -469,7 +486,7 @@ function Hydrogen_Library:SetNotification(Config)
 	Custom:Create("UISizeConstraint", { MinSize = Vector2.new(0, 40) }, Frame)
 	Custom:Create("UIPadding", {
 		PaddingTop = UDim.new(0, 8),
-		PaddingBottom = UDim.new(0, 8),
+		PaddingBottom = UDim.new(0, 11),
 		PaddingLeft = UDim.new(0, 8),
 		PaddingRight = UDim.new(0, 8),
 	}, Frame)
@@ -524,6 +541,19 @@ function Hydrogen_Library:SetNotification(Config)
 		Size = UDim2.fromOffset(14, 14),
 		ZIndex = 3,
 	}, Frame)
+	local Progress
+	if Delay > 0 then
+		Progress = Custom:Create("Frame", {
+			Name = "NotificationProgress",
+			AnchorPoint = Vector2.new(0, 1),
+			BackgroundColor3 = Custom.ColorRGB,
+			BorderSizePixel = 0,
+			Position = UDim2.new(0, 0, 1, 7),
+			Size = UDim2.new(1, 0, 0, 2),
+			ZIndex = 2,
+		}, Frame)
+		Custom:Create("UICorner", { CornerRadius = UDim.new(1, 0) }, Progress)
+	end
 	local Handle = { Closed = false }
 	function Handle:Close()
 		if self.Closed then
@@ -545,6 +575,13 @@ function Hydrogen_Library:SetNotification(Config)
 		Handle:Close()
 	end)
 	TweenService:Create(Frame, TweenInfo.new(Duration), { Position = UDim2.fromOffset(0, 0) }):Play()
+	if Progress then
+		TweenService:Create(
+			Progress,
+			TweenInfo.new(Delay, Enum.EasingStyle.Linear, Enum.EasingDirection.In),
+			{ Size = UDim2.new(0, 0, 0, 2) }
+		):Play()
+	end
 	if Delay > 0 then
 		task.delay(Delay, function()
 			Handle:Close()
@@ -1088,6 +1125,195 @@ function Hydrogen_Library:CreateWindow(Config)
 	DropShadowHolder.Size = SizeUi
 	MakeDraggable(TextLabel, DropShadowHolder)
 	TextLabel.Active = true
+
+	local MinWindow = Vector2.new(math.max(360, TabWidth + 240), 240)
+	local ResizeActive, ResizeInput, ResizeStart, ResizeOrigin = false, nil, nil, nil
+
+	local ResizeHandle = Custom:Create("ImageButton", {
+		Name = "ResizeHandle",
+		Image = Custom.Icons.Chevron,
+		ImageColor3 = Custom.White,
+		ImageTransparency = 0.5,
+		Rotation = -45,
+		BackgroundTransparency = 1,
+		BorderSizePixel = 0,
+		AutoButtonColor = false,
+		AnchorPoint = Vector2.new(1, 1),
+		Position = UDim2.new(1, -3, 1, -3),
+		Size = UDim2.fromOffset(14, 14),
+		ZIndex = 20,
+	}, Main)
+
+	local function ApplyWindowSize(Size)
+		local Screen = HydrogenGuiX.AbsoluteSize
+		local Width = math.clamp(Size.X, MinWindow.X, math.max(MinWindow.X, math.min(1000, Screen.X - 16)))
+		local Height = math.clamp(Size.Y, MinWindow.Y, math.max(MinWindow.Y, math.min(750, Screen.Y - 16)))
+		local NewSize = UDim2.fromOffset(math.floor(Width), math.floor(Height))
+		DropShadowHolder.Size = NewSize
+		DropShadow.Size = NewSize
+		Main.Size = NewSize
+	end
+
+	ResizeHandle.InputBegan:Connect(function(input)
+		if
+			input.UserInputType == Enum.UserInputType.MouseButton1
+			or input.UserInputType == Enum.UserInputType.Touch
+		then
+			ResizeActive = true
+			ResizeInput = input
+			ResizeStart = Vector2.new(input.Position.X, input.Position.Y)
+			ResizeOrigin = Main.AbsoluteSize
+			TweenService:Create(
+				ResizeHandle,
+				TweenInfo.new(0.15),
+				{ ImageColor3 = Custom.ColorRGB, ImageTransparency = 0 }
+			):Play()
+
+			input.Changed:Connect(function()
+				if input.UserInputState == Enum.UserInputState.End then
+					ResizeActive = false
+					TweenService:Create(
+						ResizeHandle,
+						TweenInfo.new(0.15),
+						{ ImageColor3 = Custom.White, ImageTransparency = 0.5 }
+					):Play()
+				end
+			end)
+		end
+	end)
+
+	local ResizeConnection
+	ResizeConnection = UserInputService.InputChanged:Connect(function(input)
+		if not Main.Parent then
+			ResizeConnection:Disconnect()
+			return
+		end
+		if
+			ResizeActive
+			and (
+				input.UserInputType == Enum.UserInputType.MouseMovement
+				or (input.UserInputType == Enum.UserInputType.Touch and input == ResizeInput)
+			)
+		then
+			ApplyWindowSize(ResizeOrigin + Vector2.new(input.Position.X, input.Position.Y) - ResizeStart)
+		end
+	end)
+	table.insert(Connections, ResizeConnection)
+
+	local WatermarkFrame = Custom:Create("Frame", {
+		Name = "Watermark",
+		BackgroundColor3 = Custom.Background,
+		BorderSizePixel = 0,
+		Position = UDim2.fromOffset(16, 16),
+		Size = UDim2.fromOffset(0, 26),
+		AutomaticSize = Enum.AutomaticSize.X,
+	}, HydrogenGuiX)
+	Custom:Create("UICorner", { CornerRadius = UDim.new(0, 6) }, WatermarkFrame)
+	Custom:Create("UIStroke", {
+		Color = Color3.fromRGB(50, 50, 50),
+		Thickness = 1.2,
+		ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
+	}, WatermarkFrame)
+	Custom:Create("UIPadding", {
+		PaddingLeft = UDim.new(0, 10),
+		PaddingRight = UDim.new(0, 10),
+	}, WatermarkFrame)
+	Custom:Create("UIListLayout", {
+		FillDirection = Enum.FillDirection.Horizontal,
+		VerticalAlignment = Enum.VerticalAlignment.Center,
+		SortOrder = Enum.SortOrder.LayoutOrder,
+		Padding = UDim.new(0, 8),
+	}, WatermarkFrame)
+
+	local WatermarkAccent = Custom:Create("Frame", {
+		Name = "WatermarkAccent",
+		BackgroundColor3 = Custom.ColorRGB,
+		BorderSizePixel = 0,
+		Size = UDim2.fromOffset(1, 12),
+		LayoutOrder = 1,
+	}, WatermarkFrame)
+	Custom:Create("UIStroke", { Color = Custom.ColorRGB, Thickness = 1.6 }, WatermarkAccent)
+	Custom:Create("UICorner", {}, WatermarkAccent)
+
+	Custom:Create("TextLabel", {
+		Name = "WatermarkTitle",
+		Text = tostring(Title ~= "" and Title or "Hydrogen"),
+		Font = Enum.Font.GothamBold,
+		TextSize = 11,
+		TextColor3 = Color3.fromRGB(231, 231, 231),
+		BackgroundTransparency = 1,
+		BorderSizePixel = 0,
+		Size = UDim2.new(0, 0, 1, 0),
+		AutomaticSize = Enum.AutomaticSize.X,
+		LayoutOrder = 2,
+	}, WatermarkFrame)
+
+	Custom:Create("Frame", {
+		Name = "WatermarkDividerA",
+		BackgroundColor3 = Custom.White,
+		BackgroundTransparency = 0.85,
+		BorderSizePixel = 0,
+		Size = UDim2.fromOffset(1, 12),
+		LayoutOrder = 3,
+	}, WatermarkFrame)
+
+	local WatermarkFps = Custom:Create("TextLabel", {
+		Name = "WatermarkFps",
+		Text = "0 FPS",
+		Font = Enum.Font.GothamBold,
+		TextSize = 11,
+		TextColor3 = Custom.White,
+		TextTransparency = 0.35,
+		BackgroundTransparency = 1,
+		BorderSizePixel = 0,
+		Size = UDim2.new(0, 0, 1, 0),
+		AutomaticSize = Enum.AutomaticSize.X,
+		LayoutOrder = 4,
+	}, WatermarkFrame)
+
+	Custom:Create("Frame", {
+		Name = "WatermarkDividerB",
+		BackgroundColor3 = Custom.White,
+		BackgroundTransparency = 0.85,
+		BorderSizePixel = 0,
+		Size = UDim2.fromOffset(1, 12),
+		LayoutOrder = 5,
+	}, WatermarkFrame)
+
+	local WatermarkPing = Custom:Create("TextLabel", {
+		Name = "WatermarkPing",
+		Text = "0 ms",
+		Font = Enum.Font.GothamBold,
+		TextSize = 11,
+		TextColor3 = Custom.White,
+		TextTransparency = 0.35,
+		BackgroundTransparency = 1,
+		BorderSizePixel = 0,
+		Size = UDim2.new(0, 0, 1, 0),
+		AutomaticSize = Enum.AutomaticSize.X,
+		LayoutOrder = 6,
+	}, WatermarkFrame)
+
+	local FpsFrames, FpsClock = 0, os.clock()
+	local WatermarkConnection
+	WatermarkConnection = RunService.Heartbeat:Connect(function()
+		if not WatermarkFrame.Parent then
+			WatermarkConnection:Disconnect()
+			return
+		end
+		local Now = os.clock()
+		if not WatermarkFrame.Visible then
+			FpsFrames, FpsClock = 0, Now
+			return
+		end
+		FpsFrames += 1
+		if Now - FpsClock >= 0.5 then
+			WatermarkFps.Text = math.floor(FpsFrames / (Now - FpsClock) + 0.5) .. " FPS"
+			WatermarkPing.Text = GetPing() .. " ms"
+			FpsFrames, FpsClock = 0, Now
+		end
+	end)
+	table.insert(Connections, WatermarkConnection)
 
 	local MoreBlur = Custom:Create("Frame", {
 		AnchorPoint = Vector2.new(1, 1),
@@ -1740,6 +1966,9 @@ function Hydrogen_Library:CreateWindow(Config)
 				ToggleWindow()
 			end
 		end))
+	end
+	function Tabs:SetWatermarkVisible(Visible)
+		WatermarkFrame.Visible = Visible == true
 	end
 	function Tabs:SetToggleKey(KeyCode)
 		if typeof(KeyCode) == "EnumItem" then
@@ -2576,6 +2805,27 @@ function Hydrogen_Library:CreateWindow(Config)
 					CornerRadius = UDim.new(0, 15),
 				}, ToggleCircle)
 
+				local ToggleGlow = Custom:Create("Frame", {
+					Name = "ToggleGlow",
+					AnchorPoint = Vector2.new(0.5, 0.5),
+					BackgroundColor3 = Custom.ColorRGB,
+					BackgroundTransparency = 1,
+					BorderSizePixel = 0,
+					Position = UDim2.fromScale(0.5, 0.5),
+					Size = UDim2.new(1, 2, 1, 2),
+					ZIndex = 0,
+				}, FeatureFrame2)
+
+				Custom:Create("UICorner", {
+					CornerRadius = UDim.new(0, 7),
+				}, ToggleGlow)
+
+				local GlowStroke = Custom:Create("UIStroke", {
+					Color = Custom.ColorRGB,
+					Thickness = 3,
+					Transparency = 1,
+				}, ToggleGlow)
+
 				local function ToggleAnimation(isOn)
 					local TitleColor = isOn and Custom.ColorRGB or Color3.fromRGB(230, 230, 230)
 					local CirclePosition = isOn and UDim2.fromOffset(17, 2) or UDim2.fromOffset(2, 2)
@@ -2585,7 +2835,13 @@ function Hydrogen_Library:CreateWindow(Config)
 					local FrameTransparency = 0
 
 					local tweenInfo = TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut)
+					local glowInfo = TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
 
+					TweenService:Create(ToggleGlow, glowInfo, {
+						BackgroundTransparency = isOn and 0.88 or 1,
+						Size = isOn and UDim2.new(1, 6, 1, 6) or UDim2.new(1, 2, 1, 2),
+					}):Play()
+					TweenService:Create(GlowStroke, glowInfo, { Transparency = isOn and 0.8 or 1 }):Play()
 					TweenService:Create(ToggleTitle, tweenInfo, { TextColor3 = TitleColor }):Play()
 					TweenService:Create(ToggleCircle, tweenInfo, { Position = CirclePosition }):Play()
 					TweenService
