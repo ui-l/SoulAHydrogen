@@ -324,18 +324,9 @@ local function MakeDraggable(topbarobject, object)
 
 	local function UpdatePos(input)
 		local delta = input.Position - dragStart
-		local Parent = object.Parent
-		if Parent and Parent:IsA("GuiBase2d") then
-			local Bounds = Parent.AbsoluteSize
-			local X = startPos.X.Scale * Bounds.X + startPos.X.Offset + delta.X
-			local Y = startPos.Y.Scale * Bounds.Y + startPos.Y.Offset + delta.Y
-			X = math.clamp(X, 0, math.max(0, Bounds.X - object.AbsoluteSize.X))
-			Y = math.clamp(Y, 0, math.max(0, Bounds.Y - object.AbsoluteSize.Y))
-			object.Position = UDim2.fromOffset(X, Y)
-			return
-		end
-		object.Position =
+		local newPos =
 			UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+		object.Position = newPos
 	end
 
 	topbarobject.InputBegan:Connect(function(input)
@@ -1173,10 +1164,8 @@ function Hydrogen_Library:CreateWindow(Config)
 
 	local function ApplyWindowSize(Size)
 		local Screen = HydrogenGuiX.AbsoluteSize
-		local RoomX = Screen.X - DropShadowHolder.Position.X.Offset
-		local RoomY = Screen.Y - DropShadowHolder.Position.Y.Offset
-		local Width = math.clamp(Size.X, MinWindow.X, math.max(MinWindow.X, math.min(1000, RoomX)))
-		local Height = math.clamp(Size.Y, MinWindow.Y, math.max(MinWindow.Y, math.min(750, RoomY)))
+		local Width = math.clamp(Size.X, MinWindow.X, math.max(MinWindow.X, math.min(1000, Screen.X - 16)))
+		local Height = math.clamp(Size.Y, MinWindow.Y, math.max(MinWindow.Y, math.min(750, Screen.Y - 16)))
 		local NewSize = UDim2.fromOffset(math.floor(Width), math.floor(Height))
 		DropShadowHolder.Size = NewSize
 		DropShadow.Size = NewSize
