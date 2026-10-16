@@ -2656,7 +2656,7 @@ function Hydrogen_Library:CreateWindow(Config)
 					BorderColor3 = Color3.fromRGB(0, 0, 0),
 					BorderSizePixel = 0,
 					Position = UDim2.new(0, 10, 0, 10),
-					Size = UDim2.new(1, -190, 0, 13),
+					Size = UDim2.new(1, -180, 0, 13),
 					Name = "SliderTitle",
 				}, Slider)
 
@@ -2673,7 +2673,7 @@ function Hydrogen_Library:CreateWindow(Config)
 					BorderColor3 = Color3.fromRGB(0, 0, 0),
 					BorderSizePixel = 0,
 					Position = UDim2.new(0, 10, 0, 23),
-					Size = UDim2.new(1, -190, 0, 12),
+					Size = UDim2.new(1, -180, 0, 12),
 					Name = "SliderContent",
 				}, Slider)
 
@@ -2681,7 +2681,7 @@ function Hydrogen_Library:CreateWindow(Config)
 					SliderContent.TextWrapped = false
 					SliderContent.Size = UDim2.new(
 						1,
-						-190,
+						-180,
 						0,
 						12 + (12 * math.floor(SliderContent.TextBounds.X / math.max(1, SliderContent.AbsoluteSize.X)))
 					)
@@ -2700,18 +2700,18 @@ function Hydrogen_Library:CreateWindow(Config)
 					BackgroundColor3 = Custom.Background,
 					BackgroundTransparency = 0,
 					BorderSizePixel = 0,
-					Position = UDim2.new(1, -172, 0.5, 0),
-					Size = UDim2.fromOffset(46, 22),
+					Position = UDim2.new(1, -160, 0.5, 0),
+					Size = UDim2.fromOffset(34, 18),
 					Name = "SliderInput",
 				}, Slider)
 
 				Custom:Create("UICorner", {
-					CornerRadius = UDim.new(0, 6),
+					CornerRadius = UDim.new(0, 5),
 				}, SliderInput)
 
 				local SliderInputStroke = Custom:Create("UIStroke", {
 					Color = Color3.fromRGB(50, 50, 50),
-					Thickness = 1.2,
+					Thickness = 1,
 					ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
 				}, SliderInput)
 
@@ -2719,7 +2719,7 @@ function Hydrogen_Library:CreateWindow(Config)
 					Font = Enum.Font.GothamBold,
 					Text = "90",
 					TextColor3 = Custom.ColorRGB,
-					TextSize = 12,
+					TextSize = 11,
 					TextWrapped = false,
 					TextXAlignment = Enum.TextXAlignment.Center,
 					TextYAlignment = Enum.TextYAlignment.Center,
