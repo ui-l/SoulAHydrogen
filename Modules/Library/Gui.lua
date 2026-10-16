@@ -324,9 +324,18 @@ local function MakeDraggable(topbarobject, object)
 
 	local function UpdatePos(input)
 		local delta = input.Position - dragStart
-		local newPos =
+		local Parent = object.Parent
+		if Parent and Parent:IsA("GuiBase2d") then
+			local Bounds = Parent.AbsoluteSize
+			local X = startPos.X.Scale * Bounds.X + startPos.X.Offset + delta.X
+			local Y = startPos.Y.Scale * Bounds.Y + startPos.Y.Offset + delta.Y
+			X = math.clamp(X, 0, math.max(0, Bounds.X - object.AbsoluteSize.X))
+			Y = math.clamp(Y, 0, math.max(0, Bounds.Y - object.AbsoluteSize.Y))
+			object.Position = UDim2.fromOffset(X, Y)
+			return
+		end
+		object.Position =
 			UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
-		object.Position = newPos
 	end
 
 	topbarobject.InputBegan:Connect(function(input)
@@ -1164,8 +1173,10 @@ function Hydrogen_Library:CreateWindow(Config)
 
 	local function ApplyWindowSize(Size)
 		local Screen = HydrogenGuiX.AbsoluteSize
-		local Width = math.clamp(Size.X, MinWindow.X, math.max(MinWindow.X, math.min(1000, Screen.X - 16)))
-		local Height = math.clamp(Size.Y, MinWindow.Y, math.max(MinWindow.Y, math.min(750, Screen.Y - 16)))
+		local RoomX = Screen.X - DropShadowHolder.Position.X.Offset
+		local RoomY = Screen.Y - DropShadowHolder.Position.Y.Offset
+		local Width = math.clamp(Size.X, MinWindow.X, math.max(MinWindow.X, math.min(1000, RoomX)))
+		local Height = math.clamp(Size.Y, MinWindow.Y, math.max(MinWindow.Y, math.min(750, RoomY)))
 		local NewSize = UDim2.fromOffset(math.floor(Width), math.floor(Height))
 		DropShadowHolder.Size = NewSize
 		DropShadow.Size = NewSize
@@ -1962,6 +1973,67 @@ function Hydrogen_Library:CreateWindow(Config)
 
 	local Tabs = {}
 
+	local IsFreeVersion = string.lower(tostring(Config[5] or Config.Version or "Premium")) == "free"
+	local LockIconId
+
+	local function PremiumLocked(ItemConfig)
+		return IsFreeVersion and type(ItemConfig) == "table" and ItemConfig.Premium == true
+	end
+
+	local function LockPremium(Frame, ItemConfig)
+		if not PremiumLocked(ItemConfig) then
+			return
+		end
+		if not LockIconId then
+			LockIconId = GetIcon("lock") or "rbxassetid://10723434711"
+		end
+		local Overlay = Custom:Create("TextButton", {
+			Name = "PremiumLock",
+			Text = "",
+			AutoButtonColor = false,
+			BackgroundColor3 = Custom.Background,
+			BackgroundTransparency = 0.45,
+			BorderSizePixel = 0,
+			Size = UDim2.fromScale(1, 1),
+			ZIndex = 20,
+		}, Frame)
+		Custom:Create("UICorner", { CornerRadius = UDim.new(0, 4) }, Overlay)
+		local Badge = Custom:Create("Frame", {
+			Name = "LockBadge",
+			AnchorPoint = Vector2.new(1, 0.5),
+			BackgroundColor3 = Custom.Surface,
+			BorderSizePixel = 0,
+			Position = UDim2.new(1, -8, 0.5, 0),
+			Size = UDim2.fromOffset(24, 24),
+			ZIndex = 21,
+		}, Overlay)
+		Custom:Create("UICorner", { CornerRadius = UDim.new(1, 0) }, Badge)
+		Custom:Create("UIStroke", {
+			Color = Color3.fromRGB(50, 50, 50),
+			Thickness = 1.2,
+			ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
+		}, Badge)
+		Custom:Create("ImageLabel", {
+			Name = "LockIcon",
+			Image = LockIconId,
+			ImageColor3 = Custom.ColorRGB,
+			BackgroundTransparency = 1,
+			BorderSizePixel = 0,
+			AnchorPoint = Vector2.new(0.5, 0.5),
+			Position = UDim2.fromScale(0.5, 0.5),
+			Size = UDim2.fromOffset(14, 14),
+			ZIndex = 22,
+		}, Badge)
+		Overlay.Activated:Connect(function()
+			Hydrogen_Library:SetNotification({
+				Title = "Premium",
+				Description = "This feature is available for Premium users only.",
+				Type = "Warning",
+				Delay = 3,
+			})
+		end)
+	end
+
 	local ToggleKey = Enum.KeyCode.RightShift
 	local function ToggleWindow()
 		if Hydrogen_Library.Unloaded then
@@ -2660,6 +2732,9 @@ function Hydrogen_Library:CreateWindow(Config)
 				local Content = Config[2] or Config.Content or ""
 				local Icon = AssetImage(Config[3] or Config.Icon, Custom.Icons.Click)
 				local Callback = Config[4] or Config.Callback or function() end
+				if PremiumLocked(Config) then
+					Callback = function() end
+				end
 				local Funcs_Button = {}
 
 				local Button = Custom:Create("Frame", {
@@ -2768,6 +2843,7 @@ function Hydrogen_Library:CreateWindow(Config)
 					Callback()
 				end)
 
+				LockPremium(Button, Config)
 				ItemCount += 1
 				return Funcs_Button
 			end
@@ -2777,6 +2853,9 @@ function Hydrogen_Library:CreateWindow(Config)
 				local Content = Config[2] or Config.Content or ""
 				local Default = Config[3] or Config.Default or false
 				local Callback = Config[4] or Config.Callback or function() end
+				if PremiumLocked(Config) then
+					Callback = function() end
+				end
 
 				local Funcs_Toggle = { Value = Default }
 
@@ -2957,6 +3036,7 @@ function Hydrogen_Library:CreateWindow(Config)
 				end
 				Funcs_Toggle:Set(Funcs_Toggle.Value)
 
+				LockPremium(Toggle, Config)
 				ItemCount += 1
 				if Config.Flag ~= nil then
 					Funcs_Toggle.Flag = Config.Flag
@@ -2982,6 +3062,9 @@ function Hydrogen_Library:CreateWindow(Config)
 				local Max = Pick(Config[5], Config.Max, 100)
 				local Default = Pick(Config[6], Config.Default, 50)
 				local Callback = Config[7] or Config.Callback or function() end
+				if PremiumLocked(Config) then
+					Callback = function() end
+				end
 
 				local Funcs_Slider = { Value = Default }
 
@@ -3218,6 +3301,7 @@ function Hydrogen_Library:CreateWindow(Config)
 				Funcs_Slider:Set(tonumber(Default))
 				Callback(Funcs_Slider.Value)
 
+				LockPremium(Slider, Config)
 				ItemCount += 1
 				if Config.Flag ~= nil then
 					Funcs_Slider.Flag = Config.Flag
@@ -3231,6 +3315,9 @@ function Hydrogen_Library:CreateWindow(Config)
 				local Content = Config[2] or Config.Content or ""
 				local Default = Config[3] or Config.Default or ""
 				local Callback = Config[4] or Config.Callback or function() end
+				if PremiumLocked(Config) then
+					Callback = function() end
+				end
 				local Funcs_Input = { Value = Default }
 
 				local Input = Custom:Create("Frame", {
@@ -3346,6 +3433,7 @@ function Hydrogen_Library:CreateWindow(Config)
 
 				Funcs_Input:Set(Default)
 
+				LockPremium(Input, Config)
 				ItemCount += 1
 				if Config.Flag ~= nil then
 					Funcs_Input.Flag = Config.Flag
@@ -3364,6 +3452,9 @@ function Hydrogen_Library:CreateWindow(Config)
 					Default = { Default }
 				end
 				local Callback = Config[6] or Config.Callback or function() end
+				if PremiumLocked(Config) then
+					Callback = function() end
+				end
 
 				local Funcs_Dropdown = { Value = table.clone(Default), Options = table.clone(Options), Multi = Multi }
 
@@ -3532,22 +3623,38 @@ function Hydrogen_Library:CreateWindow(Config)
 					SortOrder = Enum.SortOrder.LayoutOrder,
 				}, ScrollSelect)
 
-				local SearchBar = Custom:Create("TextBox", {
-					Font = Enum.Font.GothamBold,
-					PlaceholderText = "Search",
-					PlaceholderColor3 = Color3.fromRGB(120, 120, 120),
-					Text = "",
-					TextColor3 = Color3.fromRGB(255, 255, 255),
-					TextSize = 12,
-					BackgroundColor3 = Color3.fromRGB(0, 0, 0),
-					BackgroundTransparency = 0,
-					BorderColor3 = Custom.ColorRGB,
-					BorderSizePixel = 0,
-					Size = UDim2.new(1, 0, 0, 20),
+				local SearchHolder = Custom:Create("Frame", {
 					Name = "SearchBar",
-					ClearTextOnFocus = false,
+					BackgroundColor3 = Custom.Surface,
+					BorderSizePixel = 0,
+					Size = UDim2.new(1, 0, 0, 26),
 					LayoutOrder = -1,
 				}, ScrollSelect)
+				Custom:Create("UICorner", { CornerRadius = UDim.new(0, 4) }, SearchHolder)
+				Custom:Create("ImageLabel", {
+					Name = "SearchIcon",
+					Image = Custom.Icons.Search,
+					ImageColor3 = Custom.ColorRGB,
+					BackgroundTransparency = 1,
+					BorderSizePixel = 0,
+					Position = UDim2.fromOffset(7, 5),
+					Size = UDim2.fromOffset(16, 16),
+				}, SearchHolder)
+				local SearchBar = Custom:Create("TextBox", {
+					Name = "SearchInput",
+					Font = Enum.Font.Gotham,
+					PlaceholderText = "Search...",
+					PlaceholderColor3 = Color3.fromRGB(140, 140, 140),
+					Text = "",
+					TextColor3 = Custom.White,
+					TextSize = 12,
+					TextXAlignment = Enum.TextXAlignment.Left,
+					BackgroundTransparency = 1,
+					BorderSizePixel = 0,
+					ClearTextOnFocus = false,
+					Position = UDim2.fromOffset(30, 0),
+					Size = UDim2.new(1, -36, 1, 0),
+				}, SearchHolder)
 
 				SearchBar:GetPropertyChangedSignal("Text"):Connect(function()
 					local SearchText = string.lower(SearchBar.Text)
@@ -3559,6 +3666,12 @@ function Hydrogen_Library:CreateWindow(Config)
 								v.Visible = string.find(string.lower(OptionText.Text), SearchText, 1, true) ~= nil
 							end
 						end
+					end
+				end)
+
+				MoreBlur:GetPropertyChangedSignal("Visible"):Connect(function()
+					if MoreBlur.Visible then
+						SearchBar.Text = ""
 					end
 				end)
 
@@ -3731,6 +3844,7 @@ function Hydrogen_Library:CreateWindow(Config)
 
 				Funcs_Dropdown:Refresh(Funcs_Dropdown.Options, Funcs_Dropdown.Value)
 
+				LockPremium(Dropdown, Config)
 				ItemCount += 1
 				CountDropdown += 1
 				if Config.Flag ~= nil then
