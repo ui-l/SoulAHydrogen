@@ -238,17 +238,18 @@ local DefaultCredits = {
 local DefaultSocials = {
 	{
 		Name = "Github Account",
-		Value = "https://github.com/YourName",
+		Value = "https://github.com/Ui-l",
 		Icon = 91640078956994,
 	},
 	{
 		Name = "TikTok",
-		Value = "@YourTikTok",
+		Value = "@IWasZeox",
 		Icon = 86288040968024,
 	},
 	{
 		Name = "Discord",
-		Value = "https://discord.gg/YourInvite",
+		Value = "https://discord.gg/Hydrogen",
+		Icon = 78456239524887,
 	},
 }
 
