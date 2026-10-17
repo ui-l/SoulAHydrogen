@@ -739,28 +739,36 @@ function Hydrogen_Library:CreateWindow(Config)
 
 	local CreditsButton = Custom:Create("TextButton", {
 		Name = "CreditsButton",
-		Text = "Credits",
-		Font = Enum.Font.GothamBold,
-		TextSize = 11,
-		TextColor3 = Custom.White,
+		Text = "",
 		BackgroundColor3 = Custom.Surface,
 		BorderSizePixel = 0,
 		AnchorPoint = Vector2.new(1, 0),
 		Position = UDim2.new(1, -76, 0, 13),
-		Size = UDim2.fromOffset(80, 26),
-		AutoButtonColor = true,
+		Size = UDim2.fromOffset(28, 28),
+		AutoButtonColor = false,
 	}, Top)
-	Custom:Create("UICorner", { CornerRadius = UDim.new(0, 4) }, CreditsButton)
-	Custom:Create("UIPadding", { PaddingLeft = UDim.new(0, 22) }, CreditsButton)
+	Custom:Create("UICorner", { CornerRadius = UDim.new(0, 6) }, CreditsButton)
+	local CreditsStroke = Custom:Create("UIStroke", {
+		Color = Color3.fromRGB(50, 50, 50),
+		Thickness = 1.2,
+		ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
+	}, CreditsButton)
 	Custom:Create("ImageLabel", {
 		Name = "CreditsIcon",
 		Image = Custom.Icons.Credits,
 		ImageColor3 = Custom.ColorRGB,
 		BackgroundTransparency = 1,
 		BorderSizePixel = 0,
-		Position = UDim2.fromOffset(-16, 5),
+		AnchorPoint = Vector2.new(0.5, 0.5),
+		Position = UDim2.fromScale(0.5, 0.5),
 		Size = UDim2.fromOffset(16, 16),
 	}, CreditsButton)
+	CreditsButton.MouseEnter:Connect(function()
+		TweenService:Create(CreditsStroke, TweenInfo.new(0.15), { Color = Custom.ColorRGB }):Play()
+	end)
+	CreditsButton.MouseLeave:Connect(function()
+		TweenService:Create(CreditsStroke, TweenInfo.new(0.15), { Color = Color3.fromRGB(50, 50, 50) }):Play()
+	end)
 
 	TextLabel.TextTruncate = Enum.TextTruncate.AtEnd
 	TextLabel1.TextTruncate = Enum.TextTruncate.AtEnd
@@ -774,7 +782,12 @@ function Hydrogen_Library:CreateWindow(Config)
 		Position = UDim2.fromOffset(204, 13),
 		Size = UDim2.fromOffset(180, 28),
 	}, Top)
-	Custom:Create("UICorner", { CornerRadius = UDim.new(0, 4) }, SearchContainer)
+	Custom:Create("UICorner", { CornerRadius = UDim.new(0, 6) }, SearchContainer)
+	local SearchStroke = Custom:Create("UIStroke", {
+		Color = Color3.fromRGB(50, 50, 50),
+		Thickness = 1.2,
+		ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
+	}, SearchContainer)
 	Custom:Create("ImageLabel", {
 		Name = "HeaderSearchIcon",
 		Image = Custom.Icons.Search,
@@ -796,13 +809,37 @@ function Hydrogen_Library:CreateWindow(Config)
 		BorderSizePixel = 0,
 		ClearTextOnFocus = false,
 		Position = UDim2.fromOffset(32, 0),
-		Size = UDim2.new(1, -40, 1, 0),
+		Size = UDim2.new(1, -58, 1, 0),
 		TextXAlignment = Enum.TextXAlignment.Left,
 	}, SearchContainer)
+	local SearchClear = Custom:Create("ImageButton", {
+		Name = "HeaderSearchClear",
+		Image = Custom.Icons.Close,
+		ImageColor3 = Custom.White,
+		ImageTransparency = 0.4,
+		BackgroundTransparency = 1,
+		BorderSizePixel = 0,
+		AnchorPoint = Vector2.new(1, 0.5),
+		Position = UDim2.new(1, -8, 0.5, 0),
+		Size = UDim2.fromOffset(14, 14),
+		Visible = false,
+	}, SearchContainer)
+	SearchClear.Activated:Connect(function()
+		Search.Text = ""
+	end)
+	Search:GetPropertyChangedSignal("Text"):Connect(function()
+		SearchClear.Visible = Search.Text ~= ""
+	end)
+	Search.Focused:Connect(function()
+		TweenService:Create(SearchStroke, TweenInfo.new(0.15), { Color = Custom.ColorRGB }):Play()
+	end)
+	Search.FocusLost:Connect(function()
+		TweenService:Create(SearchStroke, TweenInfo.new(0.15), { Color = Color3.fromRGB(50, 50, 50) }):Play()
+	end)
 	local function UpdateHeaderLayout()
 
 		local Width = Top.AbsoluteSize.X
-		local SearchRight = math.max(24, Width - 172)
+		local SearchRight = math.max(24, Width - 120)
 		local Available = math.max(0, SearchRight - 24)
 		local TitleWidth = math.floor(Available * 0.46)
 		TextLabel.Size = UDim2.fromOffset(TitleWidth, 22)
